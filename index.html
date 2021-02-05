@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter a location for Weather ..." id="input-city">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" onclick="callApi()">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="" id="img">
+            <h1 id="output-city">Dhaka</h1>
+            <h3><span id="temperature">28.06</span>&deg;C</h3>
+            <h1 class="lead" id="lead">Clouds</h1>
+        </div>
+    </div>
+    <script>
+       function callApi() {
+        let inputCity = document.getElementById("input-city").value;
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputCity}&appid=97876a16f8ea5ce848a911865593070b&units=metric`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("temperature").innerText = data.main.temp;
+            document.getElementById("output-city").innerText = data.name || "Unknown location";
+            document.getElementById("lead").innerText = data.weather[0].description;
+            const imgSrc = data.weather[0].icon;
+            document.getElementById("img").src = `https://openweathermap.org/img/wn/${imgSrc}@2x.png`;
+        })
+       }
+    </script>
+</body>
+
+</html>
